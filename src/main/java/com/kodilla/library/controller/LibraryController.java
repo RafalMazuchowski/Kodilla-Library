@@ -6,6 +6,7 @@ import com.kodilla.library.dao.SpecimenDao;
 import com.kodilla.library.dao.UserDao;
 import com.kodilla.library.domain.Rent;
 import com.kodilla.library.domain.Specimen;
+import com.kodilla.library.domain.User;
 import com.kodilla.library.dto.BookDto;
 import com.kodilla.library.dto.RentDto;
 import com.kodilla.library.dto.SpecimenDto;
@@ -36,6 +37,11 @@ public class LibraryController {
     @RequestMapping(method = RequestMethod.POST, value = "addUser", consumes = APPLICATION_JSON_VALUE)
     public void addUser(@RequestBody UserDto userDto) {
         userDao.save(libraryMapper.mapToUser(userDto));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getUsers")
+    public List<UserDto> getUsers() {
+        return libraryMapper.mapToUsersList((List<User>) userDao.findAll());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "addBook", consumes = APPLICATION_JSON_VALUE)

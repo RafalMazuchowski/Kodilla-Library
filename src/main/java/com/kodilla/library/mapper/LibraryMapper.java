@@ -21,7 +21,11 @@ public class LibraryMapper {
     }
 
     public UserDto mapToUserDto(final User user) {
-        return new UserDto(user.getName(), user.getSurname());
+        return new UserDto(user.getName(), user.getSurname(), user.getSignUpDate());
+    }
+
+    public List<UserDto> mapToUsersList(final List<User> usersList) {
+        return usersList.stream().map(e -> new UserDto(e.getName(), e.getSurname(), e.getSignUpDate())).collect(Collectors.toList());
     }
 
     public Book mapToBook(final BookDto bookDto) {

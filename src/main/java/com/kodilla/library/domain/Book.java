@@ -11,13 +11,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "BOOK")
+@Entity(name = "BOOKS")
 public class Book {
 
     @Id
     @NotNull
     @GeneratedValue
-    @Column(name = "BOOK_ID", unique = true)
+    @Column(name = "ID", unique = true)
     private long id;
 
     @Column(name = "TITLE")

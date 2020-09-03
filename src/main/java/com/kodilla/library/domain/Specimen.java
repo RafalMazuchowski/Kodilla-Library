@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "SPECIMEN")
+@Entity(name = "SPECIMENS")
 public class Specimen {
 
     @Id
