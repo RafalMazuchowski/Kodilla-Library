@@ -1,16 +1,23 @@
-plugins {
-    id 'java'
-    id 'idea'
-    id 'org.springframework.boot' version '2.2.1.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'war'
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
-group = 'com.crud'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.kodilla'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()

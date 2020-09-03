@@ -1,10 +1,16 @@
 package com.kodilla.library.controller;
 
-import com.kodilla.library.mapper.LibraryMapper;
+import com.kodilla.library.dao.BookDao;
+import com.kodilla.library.dao.RentDao;
+import com.kodilla.library.dao.SpecimenDao;
+import com.kodilla.library.dao.UserDao;
 import com.kodilla.library.domain.Rent;
 import com.kodilla.library.domain.Specimen;
-import com.kodilla.library.dao.*;
-import com.kodilla.library.dto.*;
+import com.kodilla.library.dto.BookDto;
+import com.kodilla.library.dto.RentDto;
+import com.kodilla.library.dto.SpecimenDto;
+import com.kodilla.library.dto.UserDto;
+import com.kodilla.library.mapper.LibraryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,18 +57,18 @@ public class LibraryController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getSpecimens")
     public List<SpecimenDto> getSpecimens(@RequestParam long bookId) {
-        return libraryMapper.mapToSpecimensList(SpecimenDao.findSpecimensByBookId(bookId));
+        return libraryMapper.mapToSpecimensList(specimenDao.findSpecimenByBookId(bookId));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "rentSpecimen")
     public void rentSpecimen(@RequestParam long userId, long specimenId) {
-        rentDao.save(new Rent(userId,specimenId, LocalDateTime.now(), null));
+        rentDao.save(new Rent(userId, specimenId, LocalDateTime.now(), null));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "returnSpecimen")
     public RentDto returnSpecimen(@RequestParam long specimenId) {
         Rent fetchedRent = rentDao.findById(specimenId).get();
         fetchedRent.setReturnDate(LocalDateTime.now());
-        return libraryMapper.mapToRentalDto(rentDao.save(fetchedRent));
+        return libraryMapper.mapToRentDto(rentDao.save(fetchedRent));
     }
 }

@@ -6,7 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface SpecimenDao extends CrudRepository<Specimen, Long> {
-    static List<Specimen> findSpecimensByBookId(long bookId) {
-        return null;
-    }
+    List<Specimen> findSpecimenByBookId(long bookId);
 }
