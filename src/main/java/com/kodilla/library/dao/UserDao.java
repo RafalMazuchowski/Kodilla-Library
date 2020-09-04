@@ -2,6 +2,8 @@ package com.kodilla.library.dao;
 
 import com.kodilla.library.domain.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserDao extends CrudRepository<User, Long>{
+@Repository
+public interface UserDao extends CrudRepository<User, Long> {
 }

@@ -1,5 +1,6 @@
 package com.kodilla.library.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +12,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "USERS")
-public class User {
+public final class User {
 
     @Id
     @GeneratedValue

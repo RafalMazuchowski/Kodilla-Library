@@ -1,5 +1,6 @@
 package com.kodilla.library.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "BOOKS")
-public class Book {
+public final class Book {
 
     @Id
     @NotNull
@@ -35,5 +37,4 @@ public class Book {
         this.author = author;
         this.publicationYear = publicationYear;
     }
-
 }

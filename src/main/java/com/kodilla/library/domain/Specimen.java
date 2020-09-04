@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "SPECIMENS")
-public class Specimen {
+public final class Specimen {
 
     @Id
     @NotNull

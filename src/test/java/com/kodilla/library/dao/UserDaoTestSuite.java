@@ -32,5 +32,4 @@ public class UserDaoTestSuite {
         Assert.assertThat(fetchedUser.getId(), Matchers.equalTo(id));
         userDao.delete(fetchedUser);
     }
-
 }
