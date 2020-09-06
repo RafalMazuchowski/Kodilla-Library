@@ -21,7 +21,7 @@ public class LibraryMapper {
     @Autowired
     private DbService dbService;
 
-    public Specimen mapToSpecimen(final SpecimenDto specimenDto) throws Exception {
+    public Specimen mapToSpecimen(final SpecimenDto specimenDto) throws RuntimeException {
         return new Specimen(specimenDto.getId(),
                 dbService.getBook(specimenDto.getBookId()),
                 specimenDto.getStatus());
@@ -39,7 +39,7 @@ public class LibraryMapper {
                 .collect(Collectors.toList());
     }
 
-    public Rent mapToRent(final RentDto rentDto) throws Exception {
+    public Rent mapToRent(final RentDto rentDto) throws RuntimeException {
         return new Rent(rentDto.getId(),
                 dbService.getSpecimen(rentDto.getSpecimenId()),
                 dbService.getUser(rentDto.getUserId()),
@@ -63,14 +63,14 @@ public class LibraryMapper {
                 userDto.getSignUpDate());
     }
 
-    public UserDto mapToUserDto(final User reader) {
-        return new UserDto(reader.getId(),
-                reader.getName(),
-                reader.getSurname(),
-                reader.getSignUpDate());
+    public UserDto mapToUserDto(final User user) {
+        return new UserDto(user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getSignUpDate());
     }
 
-    public List<UserDto> mapToReaderDtoList(final List<User> userList) {
+    public List<UserDto> mapToUserDtoList(final List<User> userList) {
         return userList.stream()
                 .map(u -> new UserDto(u.getId(), u.getName(), u.getSurname(), u.getSignUpDate()))
                 .collect(Collectors.toList());
@@ -96,11 +96,11 @@ public class LibraryMapper {
                 .collect(Collectors.toList());
     }
 
-    public Specimen mapToSpecimen(Long specimenId) throws Exception {
+    public Specimen mapToSpecimen(Long specimenId) throws RuntimeException {
         return dbService.getSpecimen(specimenId);
     }
 
-    public User mapToUser(Long userId) throws Exception {
+    public User mapToUser(Long userId) throws RuntimeException {
         return dbService.getUser(userId);
     }
 }

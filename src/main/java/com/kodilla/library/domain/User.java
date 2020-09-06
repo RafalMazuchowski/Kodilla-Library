@@ -1,26 +1,26 @@
 package com.kodilla.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.*;
+
 @Getter
 @Setter
-//@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "USERS")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     @Column(name = "ID")
     private Long id;
 
@@ -31,6 +31,7 @@ public class User {
     private String surname;
 
     @Column(name = "SIGN_UP_DATE")
+    @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private LocalDate signUpDate;
 
     @OneToMany(targetEntity = Rent.class,

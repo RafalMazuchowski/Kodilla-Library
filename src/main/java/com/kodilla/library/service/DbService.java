@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -32,26 +31,28 @@ public class DbService {
         return bookDao.findAll();
     }
 
-    public Specimen getSpecimen(Long specimenId) throws Exception{
-        return specimenDao.findById(specimenId).orElseThrow(Exception::new);
+    public Specimen getSpecimen(Long specimenId) throws RuntimeException {
+        return specimenDao.findById(specimenId).orElseThrow(RuntimeException::new);
     }
 
-    public User getUser(Long userId) throws Exception{
-        return userDao.findById(userId).orElseThrow(Exception::new);
+    public User getUser(Long userId) throws RuntimeException {
+        return userDao.findById(userId).orElseThrow(RuntimeException::new);
     }
 
-    public void rent(Specimen specimen, User user) {
+    public Rent rent(Specimen specimen, User user) {
         Rent rent = new Rent(null, specimen, user, LocalDate.now(), null);
         rentDao.save(rent);
+        return rent;
     }
 
-    public Book getBook(Long bookId) throws Exception{
-        return bookDao.findById(bookId).orElseThrow(Exception::new);
+    public Book getBook(Long bookId) throws RuntimeException {
+        return bookDao.findById(bookId).orElseThrow(RuntimeException::new);
     }
 
-    public void returnBook(Rent rent) {
+    public Rent returnBook(Rent rent) {
         rent.setReturnDate(LocalDate.now());
         rentDao.save(rent);
+        return rent;
     }
 
     public User saveUser(final User user) {
@@ -62,7 +63,8 @@ public class DbService {
         return bookDao.save(book);
     }
 
-    public void saveSpecimen(Specimen specimen) {
+    public Specimen saveSpecimen(Specimen specimen) {
         specimenDao.save(specimen);
+        return specimen;
     }
 }

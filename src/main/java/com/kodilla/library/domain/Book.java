@@ -12,13 +12,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "BOOKS")
 public class Book {
 
     @Id
-    @NotNull
     @GeneratedValue
     @Column(name = "ID", unique = true)
     private long id;
