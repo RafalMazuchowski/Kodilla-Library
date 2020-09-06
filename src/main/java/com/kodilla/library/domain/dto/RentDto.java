@@ -1,18 +1,17 @@
-package com.kodilla.library.dto;
+package com.kodilla.library.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentDto {
-    private Long id;
-    private Long userId;
     private Long specimenId;
-    private LocalDate rentDate;
-    private LocalDate returnDate;
+    private Long userId;
+    private Date rentDate;
+    private Date returnDate;
 }

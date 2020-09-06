@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -20,21 +18,31 @@ public class Specimen {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @ManyToOne
+    @Column(name = "STATUS")
+    private SpecimenStatus status;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
-    @Column(name = "STATUS")
-    private String status;
-
-    @OneToMany(targetEntity = Rent.class,
-            mappedBy = "specimen")
-    private List<Rent> rents = new ArrayList<>();
-
-    public Specimen(Long id, Book book, String status) {
-        this.id = id;
-        this.book = book;
+    public Specimen(SpecimenStatus status, Book book) {
         this.status = status;
+        this.book = book;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Specimen specimen = (Specimen) o;
+        return Objects.equals(id, specimen.id) &&
+                status == specimen.status &&
+                Objects.equals(book, specimen.book);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, book);
     }
 
 }

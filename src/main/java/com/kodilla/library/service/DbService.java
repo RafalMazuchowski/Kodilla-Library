@@ -4,14 +4,17 @@ import com.kodilla.library.dao.BookDao;
 import com.kodilla.library.dao.RentDao;
 import com.kodilla.library.dao.SpecimenDao;
 import com.kodilla.library.dao.UserDao;
-import com.kodilla.library.domain.Book;
-import com.kodilla.library.domain.Rent;
-import com.kodilla.library.domain.Specimen;
-import com.kodilla.library.domain.User;
+import com.kodilla.library.domain.*;
+import com.kodilla.library.domain.dto.SpecimenDto;
+import com.kodilla.library.exception.BookNotFoundException;
+import com.kodilla.library.exception.RentNotFoundException;
+import com.kodilla.library.exception.SpecimenNotFoundException;
+import com.kodilla.library.exception.WrongSpecimenStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,52 +22,72 @@ import java.util.List;
 @Service
 public class DbService {
     @Autowired
-    private BookDao bookDao;
+    public BookDao bookDao;
     @Autowired
-    private SpecimenDao specimenDao;
+    public SpecimenDao specimenDao;
     @Autowired
-    private UserDao userDao;
+    public UserDao userDao;
     @Autowired
-    private RentDao rentDao;
+    public RentDao rentDao;
+
+    //Book service
+    public Book addBook(Book book) {
+        return bookDao.save(book);
+    }
 
     public List<Book> getAllBooks() {
         return bookDao.findAll();
     }
 
-    public Specimen getSpecimen(Long specimenId) throws RuntimeException {
-        return specimenDao.findById(specimenId).orElseThrow(RuntimeException::new);
-    }
-
-    public User getUser(Long userId) throws RuntimeException {
-        return userDao.findById(userId).orElseThrow(RuntimeException::new);
-    }
-
-    public Rent rent(Specimen specimen, User user) {
-        Rent rent = new Rent(null, specimen, user, LocalDate.now(), null);
-        rentDao.save(rent);
-        return rent;
-    }
-
-    public Book getBook(Long bookId) throws RuntimeException {
-        return bookDao.findById(bookId).orElseThrow(RuntimeException::new);
-    }
-
-    public Rent returnBook(Rent rent) {
-        rent.setReturnDate(LocalDate.now());
-        rentDao.save(rent);
-        return rent;
-    }
-
-    public User saveUser(final User user) {
+    //User service
+    public User addUser(User user) {
         return userDao.save(user);
     }
 
-    public Book saveBook(Book book) {
-        return bookDao.save(book);
+//    public List<User> getAllUsers() {
+//        return userDao.findAll();
+//    }
+
+    //Specimen service
+    public Specimen addSpecimen(Specimen specimen) {
+        return specimenDao.save(specimen);
     }
 
-    public Specimen saveSpecimen(Specimen specimen) {
+
+    public int numberOfAvailableSpecimens(Long specimenId) {
+        return specimenDao.findAllByStatusAndTitle(SpecimenStatus.AVAILABLE,
+                bookDao.findById(specimenId).orElseThrow(BookNotFoundException::new)).size();
+    }
+
+    public Specimen updateSpecimenStatus(SpecimenDto updatedSpecimen, long id) {
+        Specimen specimen = specimenDao.findById(id).orElseThrow(SpecimenNotFoundException::new);
+        if (updatedSpecimen.getStatus() != null) {
+            specimen.setStatus(updatedSpecimen.getStatus());
+        }
+        return specimenDao.save(specimen);
+    }
+
+    //Rent service
+    public Rent addRent(Rent rent) {
+        Specimen specimen = specimenDao.findById(rent.getSpecimen().getId()).orElseThrow(SpecimenNotFoundException::new);
+
+        if (specimen.getStatus() == SpecimenStatus.AVAILABLE) {
+            specimen.setStatus(SpecimenStatus.RENTED);
+        } else throw new WrongSpecimenStatusException();
+
         specimenDao.save(specimen);
-        return specimen;
+        return rentDao.save(rent);
+    }
+
+    public Rent returnBook(Long rentId) {
+        Rent rent = rentDao.findById(rentId).orElseThrow(RentNotFoundException::new);
+        Specimen specimen = rent.getSpecimen();
+        if (specimen.getStatus() == SpecimenStatus.RENTED) {
+            specimen.setStatus(SpecimenStatus.AVAILABLE);
+        } else throw new WrongSpecimenStatusException();
+
+        specimenDao.save(specimen);
+        rent.setReturnDate(Date.valueOf(LocalDate.now()));
+        return rentDao.save(rent);
     }
 }

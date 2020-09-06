@@ -1,17 +1,15 @@
 package com.kodilla.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.Objects;
 
-import static com.fasterxml.jackson.annotation.JsonFormat.Shape.*;
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 @Getter
 @Setter
@@ -32,16 +30,27 @@ public class User {
 
     @Column(name = "SIGN_UP_DATE")
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-    private LocalDate signUpDate;
+    private Date signUpDate;
 
-    @OneToMany(targetEntity = Rent.class,
-            mappedBy = "user")
-    private List<Rent> rentals = new ArrayList<>();
-
-    public User(Long id, String name, String surname, LocalDate signUpDate) {
-        this.id = id;
+    public User(String name, String surname, Date signUpDate) {
         this.name = name;
         this.surname = surname;
         this.signUpDate = signUpDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(signUpDate, user.signUpDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, signUpDate);
     }
 }

@@ -1,17 +1,16 @@
-package com.kodilla.library.dto;
+package com.kodilla.library.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
-    private Long id;
     private String name;
     private String surname;
-    private LocalDate signUpDate;
+    private Date signUpDate;
 }

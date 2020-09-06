@@ -1,5 +1,6 @@
-package com.kodilla.library.dto;
+package com.kodilla.library.domain.dto;
 
+import com.kodilla.library.domain.SpecimenStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpecimenDto {
-    private Long id;
+    private SpecimenStatus status;
     private Long bookId;
-    private String status;
 }
