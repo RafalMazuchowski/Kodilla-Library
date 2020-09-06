@@ -3,17 +3,16 @@ package com.kodilla.library.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentDto {
-    private long userId;
-    private long specimenId;
-    private LocalDateTime rentDate;
-    private LocalDateTime returnDate;
+    private Long id;
+    private Long userId;
+    private Long specimenId;
+    private LocalDate rentDate;
+    private LocalDate returnDate;
 }

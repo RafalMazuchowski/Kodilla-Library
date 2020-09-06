@@ -3,25 +3,26 @@ package com.kodilla.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@AllArgsConstructor
+@Setter
+//@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "USERS")
-public final class User {
+public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID")
-    long id;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
@@ -30,11 +31,16 @@ public final class User {
     private String surname;
 
     @Column(name = "SIGN_UP_DATE")
-    private LocalDateTime signUpDate;
+    private LocalDate signUpDate;
 
-    public User(String name, String surname) {
+    @OneToMany(targetEntity = Rent.class,
+            mappedBy = "user")
+    private List<Rent> rentals = new ArrayList<>();
+
+    public User(Long id, String name, String surname, LocalDate signUpDate) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
-        this.signUpDate = LocalDateTime.now();
+        this.signUpDate = signUpDate;
     }
 }

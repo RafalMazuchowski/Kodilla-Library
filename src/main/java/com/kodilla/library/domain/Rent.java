@@ -5,42 +5,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "RENTS")
-public final class Rent {
+public class Rent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID", unique = true)
-    private long rentId;
+    private Long id;
 
-    @Column(name = "USER_ID")
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "SPECIMEN_ID")
+    private Specimen specimen;
 
-    @Column(name = "SPECIMEN_ID")
-    private long specimenId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @Column(name = "RENT_DATE")
-    private LocalDateTime rentDate;
+    private LocalDate rentDate;
 
     @Column(name = "RETURN_DATE")
-    private LocalDateTime returnDate;
+    private LocalDate returnDate;
 
-    public Rent(long userId, long specimenId, LocalDateTime rentDate, LocalDateTime returnDate) {
-        this.userId = userId;
-        this.specimenId = specimenId;
-        this.rentDate = rentDate;
-        this.returnDate = returnDate;
-    }
 }

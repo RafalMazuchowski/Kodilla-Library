@@ -5,34 +5,40 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "SPECIMENS")
-public final class Specimen {
+public class Specimen {
 
     @Id
     @NotNull
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", unique = true)
-    private long id;
+    private Long id;
 
-    @Column(name = "BOOK_ID")
-    private long bookId;
+    @ManyToOne
+    @JoinColumn(name = "BOOK_ID")
+    private Book book;
 
     @Column(name = "STATUS")
     private String status;
 
-    public Specimen(long bookId) {
-        this.bookId = bookId;
-        this.status = String.format("Book recently added to library (on %s)", LocalDateTime.now().toString());
+    @OneToMany(targetEntity = Rent.class,
+            mappedBy = "rents")
+    private List<Rent> rentals = new ArrayList<>();
+
+    public Specimen(Long id, Book book, String status) {
+        this.id = id;
+        this.book = book;
+        this.status = status;
     }
+
 }
