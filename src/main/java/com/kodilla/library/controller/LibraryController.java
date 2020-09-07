@@ -1,9 +1,5 @@
 package com.kodilla.library.controller;
 
-import com.kodilla.library.domain.Book;
-import com.kodilla.library.domain.Rent;
-import com.kodilla.library.domain.Specimen;
-import com.kodilla.library.domain.User;
 import com.kodilla.library.domain.dto.BookDto;
 import com.kodilla.library.domain.dto.RentDto;
 import com.kodilla.library.domain.dto.SpecimenDto;
@@ -22,7 +18,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping("kodilla/library")
 public class LibraryController {
     @Autowired
-    LibraryMapper libraryMapper;
+    private LibraryMapper libraryMapper;
     @Autowired
     private DbService dbService;
 
@@ -50,7 +46,7 @@ public class LibraryController {
     public SpecimenDto updateSpecimenStatus(@RequestBody SpecimenDto specimenDto, @PathVariable("id") Long specimenId) {
         return libraryMapper.mapToSpecimenDto(dbService.updateSpecimenStatus(specimenDto, specimenId));
     }
-
+////////////////////////////////////////
     @RequestMapping(method = RequestMethod.GET, value = "numberOfAvailableSpecimens/{bookId}", consumes = APPLICATION_JSON_VALUE)
     public int numberOfSpecimens(@PathVariable("bookId") Long bookId) {
         return dbService.numberOfAvailableSpecimens(bookId);

@@ -1,5 +1,8 @@
 package com.kodilla.library.mapper;
 
+import com.kodilla.library.dao.BookDao;
+import com.kodilla.library.dao.SpecimenDao;
+import com.kodilla.library.dao.UserDao;
 import com.kodilla.library.domain.Book;
 import com.kodilla.library.domain.Rent;
 import com.kodilla.library.domain.Specimen;
@@ -11,7 +14,6 @@ import com.kodilla.library.domain.dto.UserDto;
 import com.kodilla.library.exception.BookNotFoundException;
 import com.kodilla.library.exception.SpecimenNotFoundException;
 import com.kodilla.library.exception.UserNotFoundException;
-import com.kodilla.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,25 +22,30 @@ import java.util.stream.Collectors;
 
 @Component
 public class LibraryMapper {
+
     @Autowired
-    private DbService dbService;
+    private BookDao bookDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private SpecimenDao specimenDao;
 
     //Book mapping
     public Book mapToBook(BookDto bookDto) {
-        return new Book(bookDto.getTitle(),
+        return new Book(bookDto.getTitleSome(),
                 bookDto.getAuthor(),
                 bookDto.getPublicationYear());
     }
 
     public BookDto mapToBookDto(Book book) {
-        return new BookDto(book.getTitle(),
+        return new BookDto(book.getTitleMore(),
                 book.getAuthor(),
                 book.getPublicationYear());
     }
 
     public List<BookDto> mapToBookDtoList(List<Book> bookList) {
         return bookList.stream()
-                .map(b -> new BookDto(b.getTitle(), b.getAuthor(), b.getPublicationYear()))
+                .map(b -> new BookDto(b.getTitleMore(), b.getAuthor(), b.getPublicationYear()))
                 .collect(Collectors.toList());
     }
 
@@ -55,16 +62,16 @@ public class LibraryMapper {
                 user.getSignUpDate());
     }
 
-//    public List<UserDto> mapToUserDtoList(List<User> userList) {
-//        return userList.stream()
-//                .map(u -> new UserDto(u.getName(), u.getSurname(), u.getSignUpDate()))
-//                .collect(Collectors.toList());
-//    }
+    public List<UserDto> mapToUserDtoList(List<User> userList) {
+        return userList.stream()
+                .map(u -> new UserDto(u.getName(), u.getSurname(), u.getSignUpDate()))
+                .collect(Collectors.toList());
+    }
 
     //Specimen mapping
     public Specimen mapToSpecimen(SpecimenDto specimenDto) {
         return new Specimen(specimenDto.getStatus(),
-                dbService.bookDao.findById(specimenDto.getBookId())
+                bookDao.findById(specimenDto.getBookId())
                         .orElseThrow(BookNotFoundException::new));
     }
 
@@ -79,9 +86,9 @@ public class LibraryMapper {
 //    }
 
     //Rent mapping
-    public Rent mapToRent(RentDto rentDto){
-        return new Rent(dbService.specimenDao.findById(rentDto.getSpecimenId()).orElseThrow(SpecimenNotFoundException::new),
-                dbService.userDao.findById(rentDto.getUserId()).orElseThrow(UserNotFoundException::new),
+    public Rent mapToRent(RentDto rentDto) {
+        return new Rent(specimenDao.findById(rentDto.getSpecimenId()).orElseThrow(SpecimenNotFoundException::new),
+                userDao.findById(rentDto.getUserId()).orElseThrow(UserNotFoundException::new),
                 rentDto.getRentDate(),
                 rentDto.getReturnDate());
     }
@@ -90,9 +97,9 @@ public class LibraryMapper {
         return new RentDto(rent.getSpecimen().getId(), rent.getUser().getId(), rent.getRentDate(), rent.getReturnDate());
     }
 
-//    public List<RentDto> mapToRentDtoList(List<Rent> rentsList) {
-//        return rentsList.stream()
-//                .map(r -> new RentDto(r.getSpecimen().getId(), r.getUser().getId(), r.getRentDate(), r.getReturnDate()))
-//                .collect(Collectors.toList());
-//    }
+    public List<RentDto> mapToRentDtoList(List<Rent> rentsList) {
+        return rentsList.stream()
+                .map(r -> new RentDto(r.getSpecimen().getId(), r.getUser().getId(), r.getRentDate(), r.getReturnDate()))
+                .collect(Collectors.toList());
+    }
 }

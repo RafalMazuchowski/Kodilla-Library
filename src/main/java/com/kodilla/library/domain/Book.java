@@ -18,8 +18,8 @@ public class Book {
     @Column(name = "ID", unique = true)
     private long id;
 
-    @Column(name = "TITLE")
-    private String title;
+    @Column(name = "TITLE2")
+    private String titleMore;
 
     @Column(name = "AUTHOR")
     private String author;
@@ -27,8 +27,8 @@ public class Book {
     @Column(name = "PUBLICATION_YEAR")
     private int publicationYear;
 
-    public Book(String title, String author, int publicationYear) {
-        this.title = title;
+    public Book(String titleMore, String author, int publicationYear) {
+        this.titleMore = titleMore;
         this.author = author;
         this.publicationYear = publicationYear;
     }
@@ -40,12 +40,12 @@ public class Book {
         Book book = (Book) o;
         return publicationYear == book.publicationYear &&
                 Objects.equals(id, book.id) &&
-                Objects.equals(title, book.title) &&
+                Objects.equals(titleMore, book.titleMore) &&
                 Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, publicationYear);
+        return Objects.hash(id, titleMore, author, publicationYear);
     }
 }

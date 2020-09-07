@@ -18,17 +18,17 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-@Transactional
 @Service
+@Transactional
 public class DbService {
     @Autowired
-    public BookDao bookDao;
+    private BookDao bookDao;
     @Autowired
-    public SpecimenDao specimenDao;
+    private SpecimenDao specimenDao;
     @Autowired
-    public UserDao userDao;
+    private UserDao userDao;
     @Autowired
-    public RentDao rentDao;
+    private RentDao rentDao;
 
     //Book service
     public Book addBook(Book book) {
@@ -44,19 +44,19 @@ public class DbService {
         return userDao.save(user);
     }
 
-//    public List<User> getAllUsers() {
-//        return userDao.findAll();
-//    }
+    public List<User> getAllUsers() {
+        return userDao.findAll();
+    }
 
     //Specimen service
     public Specimen addSpecimen(Specimen specimen) {
         return specimenDao.save(specimen);
     }
 
-
-    public int numberOfAvailableSpecimens(Long specimenId) {
+///////////////////////////////////////////////////////
+    public int numberOfAvailableSpecimens(Long bookId) {
         return specimenDao.findAllByStatusAndTitle(SpecimenStatus.AVAILABLE,
-                bookDao.findById(specimenId).orElseThrow(BookNotFoundException::new)).size();
+                bookDao.findById(bookId).orElseThrow(BookNotFoundException::new)).size();
     }
 
     public Specimen updateSpecimenStatus(SpecimenDto updatedSpecimen, long id) {
