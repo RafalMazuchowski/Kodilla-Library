@@ -22,7 +22,12 @@ public class LibraryController {
     @Autowired
     private DbService dbService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getBookList", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "ping")
+    public String getPing() {
+        return "pong";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getBookList")
     public List<BookDto> getBookList() {
         return libraryMapper.mapToBookDtoList(dbService.getAllBooks());
     }
@@ -46,8 +51,8 @@ public class LibraryController {
     public SpecimenDto updateSpecimenStatus(@RequestBody SpecimenDto specimenDto, @PathVariable("id") Long specimenId) {
         return libraryMapper.mapToSpecimenDto(dbService.updateSpecimenStatus(specimenDto, specimenId));
     }
-////////////////////////////////////////
-    @RequestMapping(method = RequestMethod.GET, value = "numberOfAvailableSpecimens/{bookId}", consumes = APPLICATION_JSON_VALUE)
+
+    @RequestMapping(method = RequestMethod.GET, value = "numberOfAvailableSpecimens/{bookId}")
     public int numberOfSpecimens(@PathVariable("bookId") Long bookId) {
         return dbService.numberOfAvailableSpecimens(bookId);
     }
@@ -57,7 +62,7 @@ public class LibraryController {
         return libraryMapper.mapToRentDto(dbService.addRent(libraryMapper.mapToRent(rentDto)));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "returnBook/{rentId}", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, value = "returnBook/{rentId}")
     public RentDto returnBook(@PathVariable("rentId") long rentId) {
         return libraryMapper.mapToRentDto(dbService.returnBook(rentId));
     }

@@ -1,5 +1,6 @@
 package com.kodilla.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,8 +18,8 @@ import java.util.Objects;
 public class Rent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RENT_ID", unique = true)
     private Long id;
 
     @OneToOne
@@ -28,9 +31,11 @@ public class Rent {
     private User user;
 
     @Column(name = "RENT_DATE")
+    @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private Date rentDate;
 
     @Column(name = "RETURN_DATE")
+    @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private Date returnDate;
 
     public Rent(Specimen specimen, User user, Date rentalDate, Date returnDate) {

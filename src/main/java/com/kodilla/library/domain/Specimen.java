@@ -14,8 +14,8 @@ import java.util.Objects;
 public class Specimen {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SPECIMEN_ID", unique = true)
     private Long id;
 
     @Column(name = "STATUS")

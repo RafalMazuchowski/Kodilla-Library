@@ -14,12 +14,12 @@ import java.util.Objects;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOOK_ID", unique = true)
     private long id;
 
-    @Column(name = "TITLE2")
-    private String titleMore;
+    @Column(name = "TITLE")
+    private String title;
 
     @Column(name = "AUTHOR")
     private String author;
@@ -27,8 +27,8 @@ public class Book {
     @Column(name = "PUBLICATION_YEAR")
     private int publicationYear;
 
-    public Book(String titleMore, String author, int publicationYear) {
-        this.titleMore = titleMore;
+    public Book(String title, String author, int publicationYear) {
+        this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
     }
@@ -40,12 +40,12 @@ public class Book {
         Book book = (Book) o;
         return publicationYear == book.publicationYear &&
                 Objects.equals(id, book.id) &&
-                Objects.equals(titleMore, book.titleMore) &&
+                Objects.equals(title, book.title) &&
                 Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titleMore, author, publicationYear);
+        return Objects.hash(id, title, author, publicationYear);
     }
 }

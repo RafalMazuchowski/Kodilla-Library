@@ -32,20 +32,20 @@ public class LibraryMapper {
 
     //Book mapping
     public Book mapToBook(BookDto bookDto) {
-        return new Book(bookDto.getTitleSome(),
+        return new Book(bookDto.getTitle(),
                 bookDto.getAuthor(),
                 bookDto.getPublicationYear());
     }
 
     public BookDto mapToBookDto(Book book) {
-        return new BookDto(book.getTitleMore(),
+        return new BookDto(book.getTitle(),
                 book.getAuthor(),
                 book.getPublicationYear());
     }
 
     public List<BookDto> mapToBookDtoList(List<Book> bookList) {
         return bookList.stream()
-                .map(b -> new BookDto(b.getTitleMore(), b.getAuthor(), b.getPublicationYear()))
+                .map(b -> new BookDto(b.getTitle(), b.getAuthor(), b.getPublicationYear()))
                 .collect(Collectors.toList());
     }
 

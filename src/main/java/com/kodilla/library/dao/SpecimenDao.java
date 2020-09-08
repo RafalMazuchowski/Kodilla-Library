@@ -17,7 +17,7 @@ public interface SpecimenDao extends CrudRepository<Specimen, Long> {
     @Override
     List<Specimen> findAll();
 
-    List<Specimen> findAllByStatusAndTitle(SpecimenStatus status, Book book);
+    List<Specimen> findAllByBookAndStatus(Book book, SpecimenStatus status);
 
     Optional<Specimen> findById(Long id);
 }

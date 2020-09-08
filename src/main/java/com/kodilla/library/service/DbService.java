@@ -53,11 +53,10 @@ public class DbService {
         return specimenDao.save(specimen);
     }
 
-///////////////////////////////////////////////////////
     public int numberOfAvailableSpecimens(Long bookId) {
-        return specimenDao.findAllByStatusAndTitle(SpecimenStatus.AVAILABLE,
-                bookDao.findById(bookId).orElseThrow(BookNotFoundException::new)).size();
-    }
+        return specimenDao.findAllByBookAndStatus(bookDao.findById(bookId).orElseThrow(BookNotFoundException::new),
+                SpecimenStatus.AVAILABLE).size();
+    } // Returns: 0 if book_id is on database
 
     public Specimen updateSpecimenStatus(SpecimenDto updatedSpecimen, long id) {
         Specimen specimen = specimenDao.findById(id).orElseThrow(SpecimenNotFoundException::new);
